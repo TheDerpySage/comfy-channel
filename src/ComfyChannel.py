@@ -28,6 +28,8 @@ def init_args():
                         action="store")
     parser.add_argument("-f", "--font_file", help="font file for overlay text",
                         action="store")
+    parser.add_argument("-p", "--playout_file", help="playout config file",
+                        action="store")
 
     args = vars(parser.parse_args())
 
@@ -42,7 +44,8 @@ def init_args():
     if args['font_file']:
         c.CLIENT_DRAWTEXT_FONT_FILE = args['font_file']
         c.SERVER_DRAWTEXT_FONT_FILE = args['font_file']
-
+    if args['playout_file']:
+        c.PLAYOUT_FILE = args['playout_file']
     return args
 
 # Exit program if signal received

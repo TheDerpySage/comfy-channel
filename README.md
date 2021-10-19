@@ -21,7 +21,7 @@ The full list of arguments is as follows:
 ```bash
 usage: ComfyChannel.py [-h] [-o OUTPUT] [-ua UPNEXT_AUDIO_FILE]
                        [-uv UPNEXT_VIDEO_FILE] [-uw UPNEXT_WISDOM_FILE]
-                       [-f FONT_FILE]
+                       [-f FONT_FILE] [-p PLAYOUT_FILE]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -35,6 +35,8 @@ optional arguments:
                         file for wisdom text
   -f FONT_FILE, --font_file FONT_FILE
                         font file for overlay text
+  -p PLAYOUT_FILE, --playout_file PLAYOUT_FILE
+                        config file for playout
 ```
 
 ## Docker images
