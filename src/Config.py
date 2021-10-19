@@ -11,6 +11,8 @@ SCHEDULER_UPNEXT_VIDEO_FOLDER = 'upnext/video'
 SCHEDULER_UPNEXT_AUDIO_FOLDER = 'upnext/audio'
 SCHEDULER_UPNEXT_WISDOM_FILE = 'upnext/wisdom.txt'
 
+BUMP_FOLDER = 'bumpers'
+
 OVERLAY_FILE = 'upnext/comfychan.png'
 OVERLAY_FILE_OUTLINE = 'upnext/comfychanline.png'
 OVERLAY_X = 520
