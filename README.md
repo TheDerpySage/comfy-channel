@@ -25,6 +25,7 @@ usage: ComfyChannel.py [-h] [-o OUTPUT] [-ua UPNEXT_AUDIO_FILE]
 
 optional arguments:
   -h, --help            show this help message and exit
+  -l, --loop            loop playout
   -o OUTPUT, --output OUTPUT
                         output location (stream url)
   -ua UPNEXT_AUDIO_FILE, --upnext_audio_file UPNEXT_AUDIO_FILE

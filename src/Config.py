@@ -5,6 +5,7 @@ MAX_SAME_FILE_RETRIES = 3  # Number of times to attempt playing a file before gi
 
 PLAYOUT_FILE = 'playout.ini'
 OUTPUT_LOCATION = 'rtmp://localhost/live/stream'
+LOOP = False
 
 SCHEDULER_UPNEXT_VIDEO_FOLDER = 'upnext/video'
 SCHEDULER_UPNEXT_AUDIO_FOLDER = 'upnext/audio'

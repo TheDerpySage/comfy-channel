@@ -64,7 +64,7 @@ def gen_upnext(video_dir, audio_dir=None, playlist=None, info_file=None):
 def gen_upnext_text(playlist, info_file=None):
     overlay_text = ""
     time_index = get_time_hm()
-    time_index += timedelta(seconds=30)
+    time_index += timedelta(seconds=10)
     for i in range(len(playlist)):
         item = playlist[i]
         if i == 0:
