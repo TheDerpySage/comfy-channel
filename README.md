@@ -19,7 +19,7 @@ src/ComfyChannel.py -o "rtmp://localhost/live/stream"
 The full list of arguments is as follows:
 
 ```bash
-usage: ComfyChannel.py [-h] [-o OUTPUT] [-ua UPNEXT_AUDIO_FILE]
+usage: ComfyChannel.py [-h] [-l] [-o OUTPUT] [-ua UPNEXT_AUDIO_FILE]
                        [-uv UPNEXT_VIDEO_FILE] [-uw UPNEXT_WISDOM_FILE]
                        [-f FONT_FILE] [-p PLAYOUT_FILE]
 
