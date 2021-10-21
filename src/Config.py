@@ -1,7 +1,11 @@
 # Auto-Channel configuration file
 
-MAX_CONSECUTIVE_RETRIES = 3  # TODO: If several consecutive files fail, exit program
+# Desired Resolution
+W = 854 
+H = 480
+
 MAX_SAME_FILE_RETRIES = 3  # Number of times to attempt playing a file before giving up
+MAX_CONSECUTIVE_RETRIES = 3  # If several consecutive files fail, exit program
 
 PLAYOUT_FILE = 'playout.ini'
 OUTPUT_LOCATION = 'rtmp://localhost/live/stream'
@@ -15,7 +19,7 @@ BUMP_FOLDER = 'bumpers'
 
 OVERLAY_FILE = 'upnext/comfychan.png'
 OVERLAY_FILE_OUTLINE = 'upnext/comfychanline.png'
-OVERLAY_X = 520
+OVERLAY_X = W - 120
 OVERLAY_Y = 0
 
 SERV_DRAWTEXT_X = 25
@@ -28,11 +32,11 @@ SERV_DRAWTEXT_FONT_SIZE = 20
 SERV_DRAWTEXT_FONT_COLOR = 'white'
 SERV_OUTPUT_ACODEC = 'aac'
 
-SERV_OUTPUT_ASPECT = "640:360"
-SERV_OUTPUT_CRF = 28
-SERV_OUTPUT_PRESET = 'ultrafast'
+SERV_OUTPUT_ASPECT = "%s:%s" % (W, H)
+SERV_OUTPUT_CRF = 18
+SERV_OUTPUT_PRESET = 'slow'
 
-CLIENT_VIDEO_SCALE = '640x360'
+CLIENT_VIDEO_SCALE = "%sx%s" % (W, H)
 
 CLIENT_DRAWTEXT_X = 25
 CLIENT_DRAWTEXT_Y = 90
@@ -44,14 +48,14 @@ CLIENT_DRAWTEXT_FONT_SIZE = 18
 CLIENT_DRAWTEXT_FONT_COLOR = 'white'
 
 CLIENT_VCODEC = 'h264'
-CLIENT_ASPECT = '640:360'
+CLIENT_ASPECT = "%s:%s" % (W, H)
 CLIENT_FLAGS = '+cgop'
 CLIENT_G = 120
 CLIENT_ACODEC = 'aac'
 CLIENT_STRICT = 1
 CLIENT_AUDIO_BITRATE = '168k'
 CLIENT_AUDIO_RATE = 44100
-CLIENT_PRESET = 'ultrafast'
+CLIENT_PRESET = 'slow'
 CLIENT_HLS_ALLOW_CACHE = 0
 CLIENT_HLS_LIST_SIZE = 5
 CLIENT_HLS_TIME = 0.5
