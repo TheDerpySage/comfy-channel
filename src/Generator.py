@@ -36,6 +36,7 @@ def gen_playlist(dir, shuffle=True, num_files=5):
     # https://stackoverflow.com/questions/2909975/python-list-directory-subdirectory-and-files
     for path, dirs, files in os.walk(dir):
         files = [f for f in files if not f[0] == '.']
+        files.sort()
         dirs[:] = [d for d in dirs if not d[0] == '.']
         for name in files:
             directory_listing += [os.path.join(path, name)]
@@ -75,19 +76,8 @@ def gen_upnext_text(playlist, name=None, info_file=None):
             overlay_text += time_index.strftime("%H:%M") + ' -' + \
             "  " + item.title + "\n\n"
         time_index += timedelta(seconds=(item.duration/1000))
-    # time_index = get_time_hm()
-    # time_index += timedelta(seconds=30) # TODO: make this be the length of the upnext video
-    # for item in playlist:
-    #     # overlay_text += time_index.strftime("%H:%M") + \
-    #     #     "  " + item.title + "\n\n"
-    #     overlay_text += '>' + \
-    #         "  " + item.title + "\n\n"
-    #     # time_index += item.duration_readable
-
-
     if info_file:
         overlay_text += "\n" + get_random_line(info_file)
-
     return overlay_text
 
 
