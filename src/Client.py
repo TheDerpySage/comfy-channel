@@ -78,8 +78,7 @@ class Client:
                                 hls_allow_cache=c.CLIENT_HLS_ALLOW_CACHE,
                                 hls_list_size=c.CLIENT_HLS_LIST_SIZE,
                                 hls_time=c.CLIENT_HLS_TIME,
-                                format=c.CLIENT_FORMAT,
-                                pix_fmt=c.CLIENT_PIX_FMT)
+                                format=c.CLIENT_FORMAT)
 
         self.cmd = ['ffmpeg']+ffmpeg.get_args(self.ff)
 
