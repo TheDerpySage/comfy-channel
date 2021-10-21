@@ -19,13 +19,13 @@ src/ComfyChannel.py -o "rtmp://localhost/live/stream"
 The full list of arguments is as follows:
 
 ```bash
-usage: ComfyChannel.py [-h] [-l] [-o OUTPUT] [-ua UPNEXT_AUDIO_FILE]
+usage: ComfyChannel.py [-h] [-1] [-o OUTPUT] [-ua UPNEXT_AUDIO_FILE]
                        [-uv UPNEXT_VIDEO_FILE] [-uw UPNEXT_WISDOM_FILE]
                        [-f FONT_FILE] [-p PLAYOUT_FILE]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -l, --loop            loop playout
+  -1, --once            run playout only once
   -o OUTPUT, --output OUTPUT
                         output location (stream url)
   -ua UPNEXT_AUDIO_FILE, --upnext_audio_file UPNEXT_AUDIO_FILE
@@ -116,12 +116,13 @@ A **block** is a section of content that will be played from a single folder.
 name = "Test Block 1"
 folder = videos
 files = 2
+shuffle = True
 bump_chance = 0.2
 ```
 
-A **Block** contains the block name, the folder location for the files, the number of files to play, and the chance that a **bump** will be played after each file.
+A **Block** contains the block name, the folder location for the files, the number of files to play, if the contents should be shuffled, and the chance that a **bump** will be played after each file.
 
-To add a new block, copy and paste one of the example sections and change the name, folder, files, and bump_chance.
+To add a new block, copy and paste one of the example sections and change the name, folder, files, shuffle, and bump_chance.
 
 ## Terminology
 

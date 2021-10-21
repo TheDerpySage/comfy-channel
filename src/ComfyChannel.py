@@ -31,7 +31,7 @@ def init_args():
                         action="store")
     parser.add_argument("-p", "--playout_file", help="playout config file",
                         action="store")
-    parser.add_argument("-l", "--loop", help="loop after playout file ends",
+    parser.add_argument("-1", "--once", help="only run through playout once",
                         action="store_true")
 
     args = vars(parser.parse_args())
@@ -49,8 +49,8 @@ def init_args():
         c.SERVER_DRAWTEXT_FONT_FILE = args['font_file']
     if args['playout_file']:
         c.PLAYOUT_FILE = args['playout_file']
-    if args['loop']:
-        c.LOOP = True
+    if args['once']:
+        c.LOOP = False
     return args
 
 # Exit program if signal received

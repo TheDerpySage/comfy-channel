@@ -9,7 +9,7 @@ MAX_CONSECUTIVE_RETRIES = 3  # If several consecutive files fail, exit program
 
 PLAYOUT_FILE = 'playout.ini'
 OUTPUT_LOCATION = 'rtmp://localhost/live/stream'
-LOOP = False
+LOOP = True
 
 SCHEDULER_UPNEXT_VIDEO_FOLDER = 'upnext/video'
 SCHEDULER_UPNEXT_AUDIO_FOLDER = 'upnext/audio'
@@ -58,6 +58,6 @@ CLIENT_AUDIO_RATE = 44100
 CLIENT_PRESET = 'slow'
 CLIENT_HLS_ALLOW_CACHE = 1
 CLIENT_HLS_LIST_SIZE = 20
-CLIENT_HLS_TIME = 3
+CLIENT_HLS_TIME = 4
 CLIENT_FORMAT = 'hls'
 CLIENT_FLEX = 1

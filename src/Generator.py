@@ -27,7 +27,7 @@ def listdir_file_walk(dir):
     return directory_listing
 
 
-def gen_playlist(dir, num_files=5):
+def gen_playlist(dir, shuffle=True, num_files=5):
     Logger.LOGGER.log(Logger.TYPE_INFO,
                       'Generating playlist from directory: {}'.format(dir))
     playlist = []
@@ -39,15 +39,15 @@ def gen_playlist(dir, num_files=5):
         dirs[:] = [d for d in dirs if not d[0] == '.']
         for name in files:
             directory_listing += [os.path.join(path, name)]
-
-    random.shuffle(directory_listing)
+    if shuffle:
+        random.shuffle(directory_listing)
     for i in directory_listing[:num_files]:
         playlist.append(MediaItem(i))
 
     return playlist
 
 
-def gen_upnext(video_dir, audio_dir=None, playlist=None, info_file=None):
+def gen_upnext(video_dir, audio_dir=None, name=None, playlist=None, info_file=None):
     video_file = None
     audio_file = None
     info_text = None
@@ -56,13 +56,14 @@ def gen_upnext(video_dir, audio_dir=None, playlist=None, info_file=None):
     audio_file = random.choice(listdir_file_walk(audio_dir))
 
     if playlist:
-        info_text = gen_upnext_text(playlist, info_file=info_file)
+        info_text = gen_upnext_text(playlist, name, info_file)
 
     return MediaItem(video_path=video_file, audio_path=audio_file, media_type="upnext", overlay_text=info_text)
 
 
-def gen_upnext_text(playlist, info_file=None):
+def gen_upnext_text(playlist, name=None, info_file=None):
     overlay_text = ""
+    if name is not None : overlay_text += name + "\n\n"
     time_index = get_time_hm()
     time_index += timedelta(seconds=10)
     for i in range(len(playlist)):
