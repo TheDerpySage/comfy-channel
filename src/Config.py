@@ -8,6 +8,7 @@ MAX_SAME_FILE_RETRIES = 3  # Number of times to attempt playing a file before gi
 MAX_CONSECUTIVE_RETRIES = 3  # If several consecutive files fail, exit program
 
 PLAYOUT_FILE = 'playout.ini'
+TRACKER_FILE = 'comfy-tracker.json'
 OUTPUT_LOCATION = 'rtmp://localhost/live/stream'
 LOOP = True
 

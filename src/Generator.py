@@ -1,8 +1,10 @@
 import os
 import random
+import json
 from datetime import datetime, timedelta
 
 import Logger
+import Config as c
 from MediaItem import MediaItem
 
 
@@ -26,24 +28,64 @@ def listdir_file_walk(dir):
 
     return directory_listing
 
+def get_tracker_val(dir):
+    with open(c.TRACKER_FILE, 'r') as f:
+        j = json.loads(f.read())
+        return j[dir]
 
-def gen_playlist(dir, shuffle=True, num_files=5):
-    Logger.LOGGER.log(Logger.TYPE_INFO,
-                      'Generating playlist from directory: {}'.format(dir))
+def set_tracker_val(dir, val):
+    with open(c.TRACKER_FILE, 'r') as f:
+        j = json.loads(f.read())
+    j[dir] = val
+    with open(c.TRACKER_FILE, 'w') as f:
+        json.dump(j, f)
+
+
+def gen_playlist(dir, mode=None, num_files=5):
     playlist = []
     directory_listing = []
+    x = 0
+
+    if mode == "single":
+        Logger.LOGGER.log(Logger.TYPE_INFO,
+                      'Generating playlist from single file: {}'.format(dir))
+        playlist.append(MediaItem(dir))
+        return playlist
+
+    Logger.LOGGER.log(Logger.TYPE_INFO,
+                      'Generating playlist from directory: {}'.format(dir))
 
     # https://stackoverflow.com/questions/2909975/python-list-directory-subdirectory-and-files
     for path, dirs, files in os.walk(dir):
-        files = [f for f in files if not f[0] == '.']
+        dirs.sort()
         files.sort()
+        files = [f for f in files if not f[0] == '.']
         dirs[:] = [d for d in dirs if not d[0] == '.']
         for name in files:
             directory_listing += [os.path.join(path, name)]
-    if shuffle:
+
+    # Tracker and Shuffle
+    if mode == "shuffle":
         random.shuffle(directory_listing)
-    for i in directory_listing[:num_files]:
-        playlist.append(MediaItem(i))
+    elif mode == "tracker":
+        try:
+            x = get_tracker_val(dir)
+        except KeyError:
+            x = 0
+            set_tracker_val(dir, 0)
+        set_tracker_val(dir, x + num_files)
+    # Deal with Overflow (will start the listing over if there isnt num_files in it)
+    difference = (x + num_files) - len(directory_listing)
+    if difference > 0:
+        # When theres overflow and tracking is enabled, write the difference the tracker (so we don't overflow again)
+        if mode == "tracker": set_tracker_val(dir, difference)
+        for i in directory_listing[x:x+(num_files-difference)]:
+            playlist.append(MediaItem(i))
+        for i in directory_listing[0:difference]:
+            playlist.append(MediaItem(i))
+    else:
+        for i in directory_listing[x:x+num_files]:
+            playlist.append(MediaItem(i))
 
     return playlist
 

@@ -6,16 +6,15 @@ import Logger
 
 class Block:
 
-    def __init__(self, name, folder, num_files, shuffle, bump_chance):
+    def __init__(self, name, folder, num_files, mode, bump_chance):
         self.name = name
         self.folder = folder
         self.num_files = int(num_files)
-        if shuffle == "True" : self.shuffle = True
-        else: self.shuffle = False
+        self.mode = mode
         self.bump_chance = float(bump_chance)
         self.playlist = []
-        playlist = Generator.gen_playlist(self.folder, self.shuffle, self.num_files)
-        upnext = Generator.gen_upnext(	c.SCHEDULER_UPNEXT_VIDEO_FOLDER,
+        playlist = Generator.gen_playlist(self.folder, self.mode, self.num_files)
+        upnext = Generator.gen_upnext(c.SCHEDULER_UPNEXT_VIDEO_FOLDER,
                                        c.SCHEDULER_UPNEXT_AUDIO_FOLDER,
                                        self.name,
                                        playlist,
@@ -38,5 +37,5 @@ class Scheduler:
         c = self.config
         for i in self.config.sections():
             block = Block(c[i]['name'], c[i]['folder'], c[i]
-                          ['files'], c[i]['shuffle'], c[i]['bump_chance'])
+                          ['files'], c[i]['mode'], c[i]['bump_chance'])
             self.blocklist.append(block)
