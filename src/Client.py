@@ -74,6 +74,7 @@ class Client:
                                 strict=c.CLIENT_STRICT,
                                 ab=c.CLIENT_AUDIO_BITRATE,
                                 ar=c.CLIENT_AUDIO_RATE,
+                                ac='2', # Strictly enforce stereo, 5 channel Surround audio doesnt work correctly
                                 preset=c.CLIENT_PRESET,
                                 hls_allow_cache=c.CLIENT_HLS_ALLOW_CACHE,
                                 hls_list_size=c.CLIENT_HLS_LIST_SIZE,

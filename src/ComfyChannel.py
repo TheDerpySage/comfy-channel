@@ -102,7 +102,7 @@ def main():
 
     # Main loop
     while True:
-        bumplist = Generator.gen_playlist(c.BUMP_FOLDER) # Playlist of bumps
+        bumplist = Generator.gen_playlist(c.BUMP_FOLDER, mode="shuffle") # Playlist of bumps
         scheduler = Scheduler(c.PLAYOUT_FILE) # Create a schedule using full playout file
         Logger.LOGGER.log(Logger.TYPE_INFO,
             'Scheduler Created, PLAYOUT_FILE: {}'.format(c.PLAYOUT_FILE))
