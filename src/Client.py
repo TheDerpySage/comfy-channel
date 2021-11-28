@@ -61,7 +61,12 @@ class Client:
 
             in1 = ffmpeg.input(self.media_item.video_path)
             v1 = ffmpeg.filter(in1['v'], 'scale', c.CLIENT_VIDEO_SCALE)
-            a1 = in1['a']
+            #a1 = in1['a']
+            # Client will select English Audio when Japanese is detected (for anime)
+            # TODO, PLAY JAPANESE WITH SUBS IF NO ENGLISH AUDIO IS DETECTED
+            if self.media_item.lang == 'ja':
+                a1 = in1['a:m:language:eng']
+            else : a1 = in1['a']
             output_stream = ffmpeg.concat(v1, a1, v=1, a=1)
 
         self.ff = ffmpeg.output(output_stream,

@@ -13,6 +13,16 @@ class MediaItem:
 
         self.media_info = pymediainfo.MediaInfo.parse(self.video_path)
 
+        # Hard coded detection of Japanese Audio, setting this allows the Client to select English Audio
+        try :
+            for track in self.media_info.tracks:
+                if track.track_type == "Audio":
+                    self.lang = track.to_data()['language']
+                    if self.lang == 'ja':
+                        break
+        except : 
+            self.lang = 'en'
+
         if not self.media_info.tracks[0].other_file_name:
             self.title = self.media_info.tracks[0].file_name
         else:
