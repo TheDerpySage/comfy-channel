@@ -66,6 +66,7 @@ def gen_playlist(dir, mode=None, num_files=5):
 
     # Tracker and Shuffle
     if mode == "shuffle":
+        random.seed()
         random.shuffle(directory_listing)
     elif mode == "tracker":
         try:
@@ -95,6 +96,7 @@ def gen_upnext(video_dir, audio_dir=None, name=None, playlist=None, info_file=No
     audio_file = None
     info_text = None
 
+    random.seed()
     video_file = random.choice(list(listdir_nohidden(video_dir)))
     audio_file = random.choice(listdir_file_walk(audio_dir))
 
@@ -125,6 +127,7 @@ def gen_upnext_text(playlist, name=None, info_file=None):
 
 def get_random_line(file):
     file = open(file)
+    random.seed()
     random_line = random.choice(file.readlines())
     random_line += str("\n")
     file.close()

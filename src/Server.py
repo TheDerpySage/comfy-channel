@@ -16,8 +16,8 @@ class Server:
         self.ff = ''
         self.process = None
         self.output = output
-        self.overlay_file = ffmpeg.input(c.OVERLAY_FILE, loop=1)
-        self.overlay_file_outline = ffmpeg.input(c.OVERLAY_FILE_OUTLINE, loop=1)
+        self.overlay_file = ffmpeg.input(c.OVERLAY_FILE, loop=1, t=4)
+        self.overlay_file_outline = ffmpeg.input(c.OVERLAY_FILE_OUTLINE, loop=1, t=4)
 
 
     def start(self):

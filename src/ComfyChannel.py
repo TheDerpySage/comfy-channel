@@ -111,6 +111,7 @@ def main():
                 ret = play_item(block.playlist[x], server)
                 if ret == 0: # If item played successfully, roll bump chance
                     # Only attempt bump chance on regular items, and not the last item
+                    random.seed()
                     if block.playlist[x].media_type == "regular" and x < len(block.playlist) - 1 and random.random() > 1-block.bump_chance:
                         Logger.LOGGER.log(Logger.TYPE_INFO,"Bump chance succeeded, playing bump.")
                         play_item(random.choice(bumplist), server)
