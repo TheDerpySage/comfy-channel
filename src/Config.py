@@ -1,4 +1,9 @@
+from datetime import datetime
+
 # Auto-Channel configuration file
+
+# Gets current time for upnext time calculation
+TIME_INDEX = datetime.now()
 
 # Desired Resolution
 W = 854 
@@ -35,7 +40,7 @@ SERV_OUTPUT_ACODEC = 'aac'
 
 SERV_OUTPUT_ASPECT = "%s:%s" % (W, H)
 SERV_OUTPUT_CRF = 18
-SERV_OUTPUT_PRESET = 'slow'
+SERV_OUTPUT_PRESET = 'medium'
 
 CLIENT_VIDEO_SCALE = "%sx%s" % (W, H)
 

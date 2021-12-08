@@ -1,15 +1,11 @@
 import os
 import random
 import json
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 import Logger
 import Config as c
 from MediaItem import MediaItem
-
-
-def get_time_hm():
-    return datetime.now()
 
 
 def listdir_nohidden(path):
@@ -66,8 +62,7 @@ def gen_playlist(dir, mode=None, num_files=5):
 
     # Tracker and Shuffle
     if mode == "shuffle":
-        random.seed()
-        random.shuffle(directory_listing)
+        random.SystemRandom().shuffle(directory_listing)
     elif mode == "tracker":
         try:
             x = get_tracker_val(dir)
@@ -96,9 +91,8 @@ def gen_upnext(video_dir, audio_dir=None, name=None, playlist=None, info_file=No
     audio_file = None
     info_text = None
 
-    random.seed()
-    video_file = random.choice(list(listdir_nohidden(video_dir)))
-    audio_file = random.choice(listdir_file_walk(audio_dir))
+    video_file = random.SystemRandom().choice(list(listdir_nohidden(video_dir)))
+    audio_file = random.SystemRandom().choice(listdir_file_walk(audio_dir))
 
     if playlist:
         info_text = gen_upnext_text(playlist, name, info_file)
@@ -107,19 +101,20 @@ def gen_upnext(video_dir, audio_dir=None, name=None, playlist=None, info_file=No
 
 
 def gen_upnext_text(playlist, name=None, info_file=None):
+    # Displayed times will get a touch off the more Bumps happen
     overlay_text = ""
     if name is not None : overlay_text += name + "\n\n"
-    time_index = get_time_hm()
-    time_index += timedelta(seconds=10)
+    c.TIME_INDEX += timedelta(seconds=10) # Upnext Length 
+
     for i in range(len(playlist)):
         item = playlist[i]
         if i == 0:
             overlay_text += 'Next -' + \
             "  " + item.title + "\n\n"
         else:
-            overlay_text += time_index.strftime("%H:%M") + ' -' + \
+            overlay_text += c.TIME_INDEX.strftime("%H:%M") + ' -' + \
             "  " + item.title + "\n\n"
-        time_index += timedelta(seconds=(item.duration/1000))
+        c.TIME_INDEX += timedelta(seconds=(item.duration/1000))
     if info_file:
         overlay_text += "\n" + get_random_line(info_file)
     return overlay_text
@@ -127,8 +122,7 @@ def gen_upnext_text(playlist, name=None, info_file=None):
 
 def get_random_line(file):
     file = open(file)
-    random.seed()
-    random_line = random.choice(file.readlines())
+    random_line = random.SystemRandom().choice(file.readlines())
     random_line += str("\n")
     file.close()
     return random_line
