@@ -1,9 +1,7 @@
-from datetime import datetime
-
 # Auto-Channel configuration file
 
 # Gets current time for upnext time calculation
-TIME_INDEX = datetime.now()
+TIME_INDEX = None
 
 # Desired Resolution
 W = 854 
@@ -23,8 +21,8 @@ SCHEDULER_UPNEXT_WISDOM_FILE = 'upnext/wisdom.txt'
 
 BUMP_FOLDER = 'bumpers'
 
-OVERLAY_FILE = 'upnext/comfychan.png'
-OVERLAY_FILE_OUTLINE = 'upnext/comfychanline.png'
+OVERLAY_FILE = 'upnext/ClefairyCom_scaled.png'
+OVERLAY_FILE_OUTLINE = False
 OVERLAY_X = W - 120
 OVERLAY_Y = 0
 

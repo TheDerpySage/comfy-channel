@@ -17,7 +17,8 @@ class Server:
         self.process = None
         self.output = output
         self.overlay_file = ffmpeg.input(c.OVERLAY_FILE, loop=1, t=4)
-        self.overlay_file_outline = ffmpeg.input(c.OVERLAY_FILE_OUTLINE, loop=1, t=4)
+        if c.OVERLAY_FILE_OUTLINE:
+            self.overlay_file_outline = ffmpeg.input(c.OVERLAY_FILE_OUTLINE, loop=1, t=4)
 
 
     def start(self):
@@ -37,7 +38,8 @@ class Server:
                              fontcolor=c.SERV_DRAWTEXT_FONT_COLOR
                              )
         v1 = ffmpeg.overlay(v1, self.overlay_file, x=c.OVERLAY_X, y=c.OVERLAY_Y)
-        v1 = ffmpeg.overlay(v1, self.overlay_file_outline, x=c.OVERLAY_X, y=c.OVERLAY_Y)
+        if c.OVERLAY_FILE_OUTLINE:
+            v1 = ffmpeg.overlay(v1, self.overlay_file_outline, x=c.OVERLAY_X, y=c.OVERLAY_Y)
 
         a1 = in1['a']
         joined = ffmpeg.concat(v1, a1, v=1, a=1)

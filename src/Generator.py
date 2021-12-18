@@ -55,7 +55,8 @@ def gen_playlist(dir, mode=None, num_files=5):
     for path, dirs, files in os.walk(dir):
         dirs.sort()
         files.sort()
-        files = [f for f in files if not f[0] == '.']
+        # Walks dirs and files, filtering dot files and folders and extensions commonly used for subtitles
+        files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in ['srt', 'ass', 'idx'])]
         dirs[:] = [d for d in dirs if not d[0] == '.']
         for name in files:
             directory_listing += [os.path.join(path, name)]
@@ -104,7 +105,7 @@ def gen_upnext_text(playlist, name=None, info_file=None):
     # Displayed times will get a touch off the more Bumps happen
     overlay_text = ""
     if name is not None : overlay_text += name + "\n\n"
-    c.TIME_INDEX += timedelta(seconds=10) # Upnext Length 
+    c.TIME_INDEX += timedelta(seconds=15) # Upnext Length 
 
     for i in range(len(playlist)):
         item = playlist[i]

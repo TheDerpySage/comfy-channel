@@ -9,6 +9,7 @@ import psutil
 import Config as c
 import Logger
 import Generator
+from datetime import datetime
 from Client import Client
 from MediaItem import MediaItem
 from Scheduler import Scheduler
@@ -102,6 +103,7 @@ def main():
 
     # Main loop
     while True:
+        c.TIME_INDEX = datetime.now()
         bumplist = Generator.gen_playlist(c.BUMP_FOLDER, mode="shuffle") # Playlist of bumps
         scheduler = Scheduler(c.PLAYOUT_FILE) # Create a schedule using full playout file
         Logger.LOGGER.log(Logger.TYPE_INFO,
