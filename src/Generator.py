@@ -2,6 +2,7 @@ import os
 import random
 import json
 from datetime import timedelta
+from pymediainfo import MediaInfo
 
 import Logger
 import Config as c
@@ -57,7 +58,7 @@ def gen_playlist(dir, mode=None, num_files=5):
         files.sort()
         # Walks dirs and files, filtering dot files and folders and extensions commonly used for subtitles
         files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in ['srt', 'ass', 'idx'])]
-        dirs[:] = [d for d in dirs if not d[0] == '.']
+        dirs[:] = [d for d in dirs if (not d[0] == '.') and (not d[0] == 'Specials')]
         for name in files:
             directory_listing += [os.path.join(path, name)]
 
@@ -96,16 +97,16 @@ def gen_upnext(video_dir, audio_dir=None, name=None, playlist=None, info_file=No
     audio_file = random.SystemRandom().choice(listdir_file_walk(audio_dir))
 
     if playlist:
-        info_text = gen_upnext_text(playlist, name, info_file)
+        info_text = gen_upnext_text(playlist, name, info_file=info_file, duration=MediaInfo.parse(video_file).tracks[0].duration/1000)
 
     return MediaItem(video_path=video_file, audio_path=audio_file, media_type="upnext", overlay_text=info_text)
 
 
-def gen_upnext_text(playlist, name=None, info_file=None):
+def gen_upnext_text(playlist, name=None, info_file=None, duration=0):
     # Displayed times will get a touch off the more Bumps happen
     overlay_text = ""
     if name is not None : overlay_text += name + "\n\n"
-    c.TIME_INDEX += timedelta(seconds=15) # Upnext Length 
+    c.TIME_INDEX += timedelta(seconds=duration) # Upnext Length 
 
     for i in range(len(playlist)):
         item = playlist[i]
