@@ -57,7 +57,7 @@ def gen_playlist(dir, mode=None, num_files=5):
         dirs.sort()
         files.sort()
         # Walks dirs and files, filtering dot files and folders and extensions commonly used for subtitles
-        files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in ['srt', 'ass', 'idx'])]
+        files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in ['srt', 'ass', 'idx', 'sub'])]
         dirs[:] = [d for d in dirs if (not d[0] == '.') and (not d[0] == 'Specials')]
         for name in files:
             directory_listing += [os.path.join(path, name)]

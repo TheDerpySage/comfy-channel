@@ -61,6 +61,7 @@ class Client:
 
             in1 = ffmpeg.input(self.media_item.video_path)
             v1 = ffmpeg.filter(in1['v'], 'scale', c.CLIENT_VIDEO_SCALE)
+            v1 = ffmpeg.filter(v1, 'yadif')
             #a1 = in1['a']
             if self.media_item.force_english:
                 a1 = in1['a:m:language:eng']
