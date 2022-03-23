@@ -110,3 +110,8 @@ venv.bak/
 
 # other
 bin/
+bumpers/
+signon/
+signoff/
+sunday/
+playout_*.ini
