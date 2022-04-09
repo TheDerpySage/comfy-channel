@@ -14,7 +14,6 @@ class MediaItem:
         self.media_info = pymediainfo.MediaInfo.parse(self.video_path)
 
         # Detects dual audio anime, and forces English
-        # TODO: if ja, force subtitles?
         try :
             langs = []
             for track in self.media_info.tracks:

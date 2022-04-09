@@ -1,4 +1,4 @@
-# Comfy Channel
+# Comfy Channel (UNICORN)
 
 Comfy Channel is a 24/7 live video broadcast with automatic content selection and overlays using [**FFMPEG**](https://ffmpeg.org/) and [**Python**](https://www.python.org/)!
 
@@ -118,11 +118,12 @@ folder = videos
 files = 2
 shuffle = True
 bump_chance = 0.2
+upnext_enabled = 1
 ```
 
 A **Block** contains the block name, the folder location for the files, the number of files to play, if the contents should be shuffled, and the chance that a **bump** will be played after each file.
 
-To add a new block, copy and paste one of the example sections and change the name, folder, files, shuffle, and bump_chance.
+To add a new block, copy and paste one of the example sections and change the name, folder, files, shuffle, bump_chance, and upnext_enabled.
 
 ## Terminology
 
