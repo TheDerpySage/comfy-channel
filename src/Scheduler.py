@@ -13,15 +13,14 @@ class Block:
         self.mode = mode
         self.bump_chance = float(bump_chance)
         self.upnext_enabled = int(upnext_enabled)
-        self.playlist = []
-        playlist = Generator.gen_playlist(self.folder, self.mode, self.num_files)
-        if(upnext_enabled == 1):
+        self.playlist = Generator.gen_playlist(self.folder, self.mode, self.num_files)
+        if(self.upnext_enabled == 1):
             upnext = Generator.gen_upnext(c.SCHEDULER_UPNEXT_VIDEO_FOLDER,
                                         c.SCHEDULER_UPNEXT_AUDIO_FOLDER,
                                         self.name,
-                                        playlist,
+                                        self.playlist,
                                         c.SCHEDULER_UPNEXT_WISDOM_FILE)
-        self.playlist += [upnext] + playlist
+            self.playlist.insert(0, upnext)
 
 
 class Scheduler:
