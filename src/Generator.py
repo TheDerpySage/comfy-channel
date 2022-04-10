@@ -56,7 +56,7 @@ def gen_playlist(dir, mode=None, num_files=5):
     for path, dirs, files in os.walk(dir):
         dirs.sort()
         files.sort()
-        # Walks dirs and files, filtering dot files and folders and extensions commonly used for subtitles
+        # Walks dirs and files, filtering dot files and folders, extensions commonly used for subtitles, and the Specials folder
         files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in ['srt', 'ass', 'idx', 'sub'])]
         dirs[:] = [d for d in dirs if (not d[0] == '.') and (not d[0] == 'Specials')]
         for name in files:
@@ -107,10 +107,8 @@ def gen_upnext_text(playlist, name=None, info_file=None, duration=0):
     overlay_text = ""
     if name is not None : overlay_text += name + "\n\n"
     c.TIME_INDEX += timedelta(seconds=duration) # Upnext Length 
-
-    for i in range(len(playlist)):
-        item = playlist[i]
-        if i == 0:
+    for item in playlist:
+        if playlist[0].title == item.title:
             overlay_text += 'Next -' + \
             "  " + item.title + "\n\n"
         else:
@@ -120,6 +118,10 @@ def gen_upnext_text(playlist, name=None, info_file=None, duration=0):
     if info_file:
         overlay_text += "\n" + get_random_line(info_file)
     return overlay_text
+
+def just_advance_timeindex(playlist):
+    for item in playlist:
+        c.TIME_INDEX += timedelta(seconds=(item.duration/1000))
 
 
 def get_random_line(file):

@@ -21,6 +21,8 @@ class Block:
                                         self.playlist,
                                         c.SCHEDULER_UPNEXT_WISDOM_FILE)
             self.playlist.insert(0, upnext)
+        else : Generator.just_advance_timeindex(self.playlist)
+        
 
 
 class Scheduler:
