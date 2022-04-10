@@ -22,11 +22,13 @@ def init_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--output", help="output location (stream url)",
                         action="store")
-    parser.add_argument("-ua", "--upnext_audio_file", help="folder for upnext audio files",
+    parser.add_argument("-ua", "--upnext_audio_dir", help="dir for upnext audio files",
                         action="store")
-    parser.add_argument("-uv", "--upnext_video_file", help="folder for upnext video files",
+    parser.add_argument("-uv", "--upnext_video_dir", help="dir for upnext video files",
                         action="store")
     parser.add_argument("-uw", "--upnext_wisdom_file", help="file for wisdom text",
+                        action="store")
+    parser.add_arguement("-b", "--bumper_dir", help="dir for bumpers",
                         action="store")
     parser.add_argument("-f", "--font_file", help="font file for overlay text",
                         action="store")
@@ -39,12 +41,14 @@ def init_args():
 
     if args['output']:
         c.OUTPUT_LOCATION = args['output']
-    if args['upnext_audio_file']:
-        c.SCHEDULER_UPNEXT_AUDIO_FOLDER = args['upnext_audio_file']
-    if args['upnext_video_file']:
-        c.SCHEDULER_UPNEXT_VIDEO_FOLDER = args['upnext_video_file']
+    if args['upnext_audio_dir']:
+        c.SCHEDULER_UPNEXT_AUDIO_FOLDER = args['upnext_audio_dir']
+    if args['upnext_video_dir']:
+        c.SCHEDULER_UPNEXT_VIDEO_FOLDER = args['upnext_video_dir']
     if args['upnext_wisdom_file']:
         c.SCHEDULER_UPNEXT_WISDOM_FILE = args['upnext_wisdom_file']
+    if args['bumper_dir']:
+        c.BUMPER_FOLDER = args['bumper_dir']
     if args['font_file']:
         c.CLIENT_DRAWTEXT_FONT_FILE = args['font_file']
         c.SERVER_DRAWTEXT_FONT_FILE = args['font_file']

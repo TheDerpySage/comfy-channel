@@ -6,6 +6,20 @@ Comfy Channel is a 24/7 live video broadcast with automatic content selection an
 
 This repository comes with some example content and configurations that can be used to set up Comfy Channel.
 
+## Differences from original
+
+- Options to change some config options with command line args
+- Forces English Audio when Dual Audio is detected (EN/JA only)
+- Enforces 2 channel audio
+- `shuffle` is replaced with `mode` in the playout config. `mode` can be set to `shuffle` or `tracker`
+- `tracker` mode will play files sequentially, and keep track of progress using `comfy-tracker.json` so that progress persists between runs/loops
+- Uses `SystemRandom`
+- Makes the overlay image outline file optional, since it seems largely unneccessary
+
+### TODO
+
+- Add a smart shuffle to make sure shuffle isn't choosing the same files over and over between runs. 
+
 ## How to run
 
 **Perform the steps outlined in [Requirements](#requirements) first!!!**
@@ -19,21 +33,23 @@ src/ComfyChannel.py -o "rtmp://localhost/live/stream"
 The full list of arguments is as follows:
 
 ```bash
-usage: ComfyChannel.py [-h] [-1] [-o OUTPUT] [-ua UPNEXT_AUDIO_FILE]
-                       [-uv UPNEXT_VIDEO_FILE] [-uw UPNEXT_WISDOM_FILE]
-                       [-f FONT_FILE] [-p PLAYOUT_FILE]
+usage: ComfyChannel.py [-h] [-1] [-o OUTPUT] [-ua UPNEXT_AUDIO_DIR]
+                       [-uv UPNEXT_VIDEO_DIR] [-uw UPNEXT_WISDOM_FILE]
+                       [-b BUMPER_DIR] [-f FONT_FILE] [-p PLAYOUT_FILE]
 
 optional arguments:
   -h, --help            show this help message and exit
   -1, --once            run playout only once
   -o OUTPUT, --output OUTPUT
                         output location (stream url)
-  -ua UPNEXT_AUDIO_FILE, --upnext_audio_file UPNEXT_AUDIO_FILE
-                        folder for upnext audio files
-  -uv UPNEXT_VIDEO_FILE, --upnext_video_file UPNEXT_VIDEO_FILE
-                        folder for upnext video files
+  -ua UPNEXT_AUDIO_DIR, --upnext_audio_dir UPNEXT_AUDIO_DIR
+                        directory for upnext audio files
+  -uv UPNEXT_VIDEO_DIR, --upnext_video_DIR UPNEXT_VIDEO_DIR
+                        directory for upnext video files
   -uw UPNEXT_WISDOM_FILE, --upnext_wisdom_file UPNEXT_WISDOM_FILE
                         file for wisdom text
+  -b BUMPER_DIR, --bumper_dir BUMPER_DIR
+                        directory for bumper video files
   -f FONT_FILE, --font_file FONT_FILE
                         font file for overlay text
   -p PLAYOUT_FILE, --playout_file PLAYOUT_FILE
@@ -116,7 +132,7 @@ A **block** is a section of content that will be played from a single folder.
 name = "Test Block 1"
 folder = videos
 files = 2
-shuffle = True
+mode = shuffle
 bump_chance = 0.2
 upnext_enabled = 1
 ```
