@@ -8,7 +8,7 @@ import psutil
 
 import Config as c
 import Logger
-import Generator
+import Generator 
 from datetime import datetime
 from Client import Client
 from MediaItem import MediaItem
@@ -28,7 +28,7 @@ def init_args():
                         action="store")
     parser.add_argument("-uw", "--upnext_wisdom_file", help="file for wisdom text",
                         action="store")
-    parser.add_arguement("-b", "--bumper_dir", help="dir for bumpers",
+    parser.add_argument("-b", "--bumper_dir", help="dir for bumpers",
                         action="store")
     parser.add_argument("-f", "--font_file", help="font file for overlay text",
                         action="store")

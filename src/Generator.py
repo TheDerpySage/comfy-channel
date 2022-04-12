@@ -64,7 +64,7 @@ def gen_playlist(dir, mode=None, num_files=5):
 
     # Tracker and Shuffle
     if mode == "shuffle":
-        random.SystemRandom().shuffle(directory_listing)
+        random.SystemRandom().shuffle(directory_listing, random.SystemRandom().random)
     elif mode == "tracker":
         try:
             x = get_tracker_val(dir)

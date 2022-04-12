@@ -11,14 +11,15 @@ This repository comes with some example content and configurations that can be u
 - Options to change some config options with command line args
 - Forces English Audio when Dual Audio is detected (EN/JA only)
 - Enforces 2 channel audio
-- `shuffle` is replaced with `mode` in the playout config. `mode` can be set to `shuffle` or `tracker`
+- `shuffle` is replaced with `mode` in the playout config. `mode` can be set to `shuffle`, `tracker`, or `single`
 - `tracker` mode will play files sequentially, and keep track of progress using `comfy-tracker.json` so that progress persists between runs/loops
+- `single` is self explanatory, where you just feed a single video file directly to the `folder` param and the `files` can be set to `1`.
 - Uses `SystemRandom`
 - Makes the overlay image outline file optional, since it seems largely unneccessary
 
 ### TODO
 
-- Add a smart shuffle to make sure shuffle isn't choosing the same files over and over between runs. 
+- Add a smart shuffle to make sure shuffle isn't choosing the same files over and over between runs.
 
 ## How to run
 
