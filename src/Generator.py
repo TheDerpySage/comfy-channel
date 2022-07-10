@@ -35,7 +35,7 @@ def set_tracker_val(dir, val):
         j = json.loads(f.read())
     j[dir] = val
     with open(c.TRACKER_FILE, 'w') as f:
-        json.dump(j, f)
+        json.dump(j, f, indent=4)
 
 
 def gen_playlist(dir, mode=None, num_files=5):
