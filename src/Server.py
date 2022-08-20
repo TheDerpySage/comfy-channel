@@ -49,7 +49,8 @@ class Server:
                                 acodec=c.SERV_OUTPUT_ACODEC,
                                 crf=c.SERV_OUTPUT_CRF,
                                 preset=c.SERV_OUTPUT_PRESET,
-                                format='flv'
+                                format='flv',
+                                pix_fmt=c.PIX_FMT
                                 )
 
         self.cmd = ['ffmpeg', '-re']+ffmpeg.get_args(self.ff)

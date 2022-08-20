@@ -21,10 +21,12 @@ SCHEDULER_UPNEXT_WISDOM_FILE = 'upnext/wisdom.txt'
 
 BUMP_FOLDER = 'bumpers'
 
-OVERLAY_FILE = 'upnext/ClefairyCom_scaled.png'
+OVERLAY_FILE = 'upnext/moe_scaled.png'
 OVERLAY_FILE_OUTLINE = False
 OVERLAY_X = W - 120
 OVERLAY_Y = 0
+
+PIX_FMT = 'yuv420p'  # Pixel Format for both server and client
 
 SERV_DRAWTEXT_X = 25
 SERV_DRAWTEXT_Y = 25

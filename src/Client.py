@@ -63,10 +63,11 @@ class Client:
             v1 = ffmpeg.filter(in1['v'], 'scale', c.CLIENT_VIDEO_SCALE)
             if (c.CLIENT_ENABLE_DEINTERLACE):
                 v1 = ffmpeg.filter(v1, 'yadif')
-            #a1 = in1['a']
             if self.media_item.force_english:
                 a1 = in1['a:m:language:eng']
             else : a1 = in1['a']
+            if self.media_item.subtitle_file:
+                v1 = ffmpeg.filter(v1, 'subtitles', self.media_item.subtitle_file)
             output_stream = ffmpeg.concat(v1, a1, v=1, a=1)
 
         self.ff = ffmpeg.output(output_stream,
@@ -79,12 +80,13 @@ class Client:
                                 strict=c.CLIENT_STRICT,
                                 ab=c.CLIENT_AUDIO_BITRATE,
                                 ar=c.CLIENT_AUDIO_RATE,
-                                ac='2', # Strictly enforce stereo, 5 channel Surround audio doesnt work correctly
+                                ac='2',  # Strictly enforce stereo, 5 channel Surround audio doesnt work correctly
                                 preset=c.CLIENT_PRESET,
                                 hls_allow_cache=c.CLIENT_HLS_ALLOW_CACHE,
                                 hls_list_size=c.CLIENT_HLS_LIST_SIZE,
                                 hls_time=c.CLIENT_HLS_TIME,
-                                format=c.CLIENT_FORMAT
+                                format=c.CLIENT_FORMAT,
+                                pix_fmt=c.PIX_FMT
                                 )
 
         self.cmd = ['ffmpeg']+ffmpeg.get_args(self.ff)
@@ -93,7 +95,7 @@ class Client:
             self.cmd, stdout=self.server.stdin, stderr=(None if CLIENT_DEBUG else devnull))
         try:
             flex = c.CLIENT_FLEX  # Number of seconds of extra time before timeout
-            timeout = (self.media_item.duration/1000) # Content length in seconds
+            timeout = (self.media_item.duration/1000)  # Content length in seconds
             self.process.wait(timeout=timeout+flex)
         except subprocess.TimeoutExpired:
             Logger.LOGGER.log(

@@ -16,6 +16,7 @@ This repository comes with some example content and configurations that can be u
 - `single` is self explanatory, where you just feed a single video file directly to the `folder` param and the `files` can be set to `1`.
 - Uses `SystemRandom`
 - Makes the overlay image outline file optional, since it seems largely unneccessary
+- Allows you to enable subtitles. If the file is an mkv itll try to play subtitles out of the mkv, if not itll try to load a subtitle file .srt or .ass from the same dir as the file  
 
 ### TODO
 
@@ -136,6 +137,7 @@ files = 2
 mode = shuffle
 bump_chance = 0.2
 upnext_enabled = 1
+subtitles = 0
 ```
 
 A **Block** contains the block name, the folder location for the files, the number of files to play, if the contents should be shuffled, and the chance that a **bump** will be played after each file.
