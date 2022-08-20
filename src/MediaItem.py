@@ -27,7 +27,6 @@ class MediaItem:
                 except : pass
         if 'en' in langs and 'ja' in langs:
             self.force_english = True
-        print(subtitles)
         if subtitles == 1:
             if self.video_path[-3:] == "mkv":
                 self.subtitle_file = self.video_path
@@ -40,7 +39,6 @@ class MediaItem:
             elif exists(self.video_path[:-3] + "eng.srt"):
                 self.subtitle_file = self.video_path[:-3] + "eng.srt"
             else : print("No Subs Found for file %s\nContinuing anyway..." % self.video_path)
-            print(self.subtitle_file)
 
         if not self.media_info.tracks[0].other_file_name:
             self.title = self.media_info.tracks[0].file_name
