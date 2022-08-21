@@ -38,7 +38,7 @@ def set_tracker_val(dir, val):
         json.dump(j, f, indent=4)
 
 
-def gen_playlist(dir, mode=None, num_files=5, subtitles=0):
+def gen_playlist(dir, mode=None, num_files=1, subtitles=0):
     playlist = []
     directory_listing = []
     x = 0
