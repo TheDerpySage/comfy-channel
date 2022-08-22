@@ -38,11 +38,10 @@ def set_tracker_val(dir, val):
         json.dump(j, f, indent=4)
 
 
-def gen_playlist(dir, mode=None, num_files=1, subtitles=0):
+def gen_playlist(dir, mode="sequential", num_files=None, subtitles=0):
     playlist = []
-    directory_listing = []
-    x = 0
 
+    # Single (No need to do all the extra processing)
     if mode == "single":
         Logger.LOGGER.log(Logger.TYPE_INFO,
                       'Generating playlist from single file: {}'.format(dir))
@@ -51,6 +50,9 @@ def gen_playlist(dir, mode=None, num_files=1, subtitles=0):
 
     Logger.LOGGER.log(Logger.TYPE_INFO,
                       'Generating playlist from directory: {}'.format(dir))
+
+    directory_listing = []
+    x = 0
 
     # https://stackoverflow.com/questions/2909975/python-list-directory-subdirectory-and-files
     for path, dirs, files in os.walk(dir):
@@ -62,16 +64,26 @@ def gen_playlist(dir, mode=None, num_files=1, subtitles=0):
         for name in files:
             directory_listing += [os.path.join(path, name)]
 
-    # Tracker and Shuffle
+    # If no num_files is passed, just use whole dir
+    # (Used mainly by generating the bump playlist)
+    if num_files == None:
+        num_files = len(directory_listing)
+
+    # Shuffle directory listing
     if mode == "shuffle":
         random.SystemRandom().shuffle(directory_listing, random.SystemRandom().random)
+    # Tracker gets the current tracked value, and sets the beginning index to it
     elif mode == "tracker":
         try:
             x = get_tracker_val(dir)
         except KeyError:
-            x = 0
             set_tracker_val(dir, 0)
         set_tracker_val(dir, x + num_files)
+    # Sequential does nothing else, just nop
+    elif mode == "sequential":
+        pass
+    else: raise ValueError("Mode %s not valid for a playlist" % mode)
+
     # Deal with Overflow (will start the listing over if there isnt num_files in it)
     difference = (x + num_files) - len(directory_listing)
     if difference > 0:

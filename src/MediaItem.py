@@ -1,7 +1,8 @@
 import pymediainfo
 import datetime
+import Logger
 from os.path import exists
-
+    
 
 class MediaItem:
 
@@ -15,8 +16,9 @@ class MediaItem:
         self.media_info = pymediainfo.MediaInfo.parse(self.video_path)
 
         # Detects dual audio anime, set force English Audio flag
-        # if only Japanese audio, set Subtitles File and Force Subtitles flag
-        # if Force Subtitles already set True, set Subtitles File
+        # If subtitles set to 1, search file for subtitles, 
+        # if subtitles not in file search directory for some common subtitle files,
+        # if no files found, send an error message to stdout but continue
         self.force_english = False
         self.subtitle_file = False
         langs = []
@@ -28,17 +30,19 @@ class MediaItem:
         if 'en' in langs and 'ja' in langs:
             self.force_english = True
         if subtitles == 1:
-            if self.video_path[-3:] == "mkv":
-                self.subtitle_file = self.video_path
-            elif exists(self.video_path[:-3] + "ass"):
-                self.subtitle_file = self.video_path[:-3] + "ass"
-            elif exists(self.video_path[:-3] + "eng.ass"):
-                self.subtitle_file = self.video_path[:-3] + "eng.ass"
-            elif exists(self.video_path[:-3] + "srt"):
-                self.subtitle_file = self.video_path[:-3] + "srt"
-            elif exists(self.video_path[:-3] + "eng.srt"):
-                self.subtitle_file = self.video_path[:-3] + "eng.srt"
-            else : print("No Subs Found for file %s\nContinuing anyway..." % self.video_path)
+            for track in self.media_info.tracks:
+                if track.track_type == "Text":
+                    self.subtitle_file = self.video_path
+                    break
+            if (not self.subtitle_file): 
+                exts = ['ass', 'srt', 'eng.ass', 'eng.srt', 'sub']
+                for ext in exts:
+                    if(exists(video_path[:-3] + ext)):
+                        self.subtitle_file = video_path[:-3] + ext
+                        break
+            if (not self.subtitle_file):
+                Logger.LOGGER.log(Logger.TYPE_ERROR,
+                    'No subs found for file: {}'.format(self.video_path))
 
         if not self.media_info.tracks[0].other_file_name:
             self.title = self.media_info.tracks[0].file_name
