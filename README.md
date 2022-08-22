@@ -11,9 +11,10 @@ This repository comes with some example content and configurations that can be u
 - Options to change some config options with command line args
 - Forces English Audio when Dual Audio is detected (EN/JA only)
 - Enforces 2 channel audio
-- `shuffle` is replaced with `mode` in the playout config. `mode` can be set to `shuffle`, `tracker`, or `single`
+- `shuffle` is replaced with `mode` in the playout config. `mode` can be set to `shuffle`, `tracker`, `single`, or `sequential`
 - `tracker` mode will play files sequentially, and keep track of progress using `comfy-tracker.json` so that progress persists between runs/loops
 - `single` is self explanatory, where you just feed a single video file directly to the `folder` param and the `files` can be set to `1`.
+- `sequential` mode will play files sequentially, in sorted order, but won't keep track of progress between runs.
 - Uses `SystemRandom`
 - Makes the overlay image outline file optional, since it seems largely unneccessary
 - Allows you to enable subtitles. If the file is an mkv itll try to play subtitles out of the mkv, if not itll try to load a subtitle file .srt or .ass from the same dir as the file  
