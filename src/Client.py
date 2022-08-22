@@ -37,7 +37,8 @@ class Client:
 
             in1 = ffmpeg.input(self.media_item.video_path)
             in2 = ffmpeg.input(self.media_item.audio_path)
-            v1 = ffmpeg.filter(in1['v'], 'scale', c.CLIENT_VIDEO_SCALE)
+            v1 = ffmpeg.filter(in1['v'], 'scale', w=-2, h=c.H, force_original_aspect_ratio="decrease")
+            v1 = ffmpeg.filter(v1, 'pad', w=c.W, h=c.H, x='(ow-iw)/2', y='(oh-ih)/2')
             v1 = ffmpeg.drawtext(v1, '{}'.format(self.media_item.overlay_text),
                                  x=c.CLIENT_DRAWTEXT_X,
                                  y=c.CLIENT_DRAWTEXT_Y,
@@ -60,7 +61,8 @@ class Client:
                 self.media_item, self.media_item.duration_readable))
 
             in1 = ffmpeg.input(self.media_item.video_path)
-            v1 = ffmpeg.filter(in1['v'], 'scale', c.CLIENT_VIDEO_SCALE)
+            v1 = ffmpeg.filter(in1['v'], 'scale', w=-2, h=c.H, force_original_aspect_ratio="decrease")
+            v1 = ffmpeg.filter(v1, 'pad', w=c.W, h=c.H, x='(ow-iw)/2', y='(oh-ih)/2')
             if (c.CLIENT_ENABLE_DEINTERLACE):
                 v1 = ffmpeg.filter(v1, 'yadif')
             if self.media_item.force_english:
