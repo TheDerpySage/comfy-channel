@@ -131,6 +131,28 @@ def gen_upnext_text(playlist, name=None, info_file=None, duration=0):
         overlay_text += "\n" + get_random_line(info_file)
     return overlay_text
 
+
+def gen_music_playlist(dir, num_files=5):
+    playlist = []
+    directory_listing = []
+
+    for path, dirs, files in os.walk(dir):
+        dirs.sort()
+        files.sort()
+        # Walks dirs and files, filtering dot files and folders, extensions commonly used for subtitles, and the Specials folder
+        files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in ['srt', 'ass', 'idx', 'sub'])]
+        dirs[:] = [d for d in dirs if (not d[0] == '.') and (not d[0] == 'Specials')]
+        for name in files:
+            directory_listing += [os.path.join(path, name)]
+
+    random.SystemRandom().shuffle(directory_listing, random.SystemRandom().random)
+
+    for i in directory_listing[:num_files]:
+        playlist.append(MediaItem(i, media_type="music"))
+        
+    return playlist
+
+
 def just_advance_timeindex(playlist):
     for item in playlist:
         c.TIME_INDEX += timedelta(seconds=(item.duration/1000))

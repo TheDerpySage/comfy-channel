@@ -14,7 +14,9 @@ class Block:
         self.bump_chance = float(bump_chance)
         self.upnext_enabled = int(upnext_enabled)
         self.subtitles = int(subtitles)
-        self.playlist = Generator.gen_playlist(self.folder, self.mode, self.num_files, subtitles=self.subtitles)
+        if mode == "music":
+            self.playlist = Generator.gen_music_playlist(self.folder, self.num_files)
+        else : self.playlist = Generator.gen_playlist(self.folder, self.mode, self.num_files, subtitles=self.subtitles)
         if(self.upnext_enabled == 1):
             upnext = Generator.gen_upnext(c.SCHEDULER_UPNEXT_VIDEO_FOLDER,
                                         c.SCHEDULER_UPNEXT_AUDIO_FOLDER,

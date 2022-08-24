@@ -7,7 +7,7 @@ import psutil
 import Config as c
 import Logger
 
-CLIENT_DEBUG = True
+CLIENT_DEBUG = False
 devnull = subprocess.DEVNULL
 
 
@@ -65,11 +65,23 @@ class Client:
             v1 = ffmpeg.filter(v1, 'pad', w=c.W, h=c.H, x='(ow-iw)/2', y='(oh-ih)/2')
             if (c.CLIENT_ENABLE_DEINTERLACE):
                 v1 = ffmpeg.filter(v1, 'yadif')
+            if self.media_item.subtitle_file:
+                v1 = ffmpeg.filter(v1, 'subtitles', self.media_item.subtitle_file)
+            if self.media_type == "music":
+                v1 = ffmpeg.drawtext(v1, '{}'.format(self.media_item.title),
+                                 x=36,
+                                 y=c.H - 36,
+                                 escape_text=False,
+                                 shadowcolor=c.CLIENT_DRAWTEXT_SHADOW_COLOR,
+                                 shadowx=c.CLIENT_DRAWTEXT_SHADOW_X,
+                                 shadowy=c.CLIENT_DRAWTEXT_SHADOW_Y,
+                                 fontsize=c.CLIENT_DRAWTEXT_FONT_SIZE,
+                                 fontfile=c.CLIENT_DRAWTEXT_FONT_FILE,
+                                 fontcolor=c.CLIENT_DRAWTEXT_FONT_COLOR,
+                                 alpha='if(lt(t,10),0,if(lt(t,11),(t-10)/1,if(lt(t,21),1,if(lt(t,22),(1-(t-21))/1,0))))')
             if self.media_item.force_english:
                 a1 = in1['a:m:language:eng']
             else : a1 = in1['a']
-            if self.media_item.subtitle_file:
-                v1 = ffmpeg.filter(v1, 'subtitles', self.media_item.subtitle_file)
             output_stream = ffmpeg.concat(v1, a1, v=1, a=1)
 
         self.ff = ffmpeg.output(output_stream,
