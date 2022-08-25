@@ -70,7 +70,7 @@ class Client:
             if self.media_type == "music":
                 v1 = ffmpeg.drawtext(v1, '{}'.format(self.media_item.title),
                                  x=36,
-                                 y=c.H - 36,
+                                 y=c.H - 36 - c.CLIENT_DRAWTEXT_FONT_SIZE,
                                  escape_text=False,
                                  shadowcolor=c.CLIENT_DRAWTEXT_SHADOW_COLOR,
                                  shadowx=c.CLIENT_DRAWTEXT_SHADOW_X,

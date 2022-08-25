@@ -136,6 +136,9 @@ def gen_music_playlist(dir, num_files=5):
     playlist = []
     directory_listing = []
 
+    Logger.LOGGER.log(Logger.TYPE_INFO,
+                      'Generating music playlist from directory: {}'.format(dir))
+
     for path, dirs, files in os.walk(dir):
         dirs.sort()
         files.sort()

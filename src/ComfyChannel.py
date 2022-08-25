@@ -31,6 +31,8 @@ def init_args():
                         action="store")
     parser.add_argument("-b", "--bumper_dir", help="dir for bumpers",
                         action="store")
+    parser.add_argument("-of", "--overlay_file", help="image to be displayed on the top right of the stream",
+                        action="store")
     parser.add_argument("-f", "--font_file", help="font file for overlay text",
                         action="store")
     parser.add_argument("-p", "--playout_file", help="playout config file",
@@ -50,6 +52,8 @@ def init_args():
         c.SCHEDULER_UPNEXT_WISDOM_FILE = args['upnext_wisdom_file']
     if args['bumper_dir']:
         c.BUMPER_FOLDER = args['bumper_dir']
+    if args['overlay_file']:
+        c.OVERLAY_FILE = args['overlay_file']
     if args['font_file']:
         c.CLIENT_DRAWTEXT_FONT_FILE = args['font_file']
         c.SERVER_DRAWTEXT_FONT_FILE = args['font_file']
