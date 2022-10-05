@@ -8,15 +8,7 @@ import Config as c
 import Logger
 
 CLIENT_DEBUG = False
-devnull = subprocess.DEVNULL
-
-
-def kill(proc_pid):
-    process = psutil.Process(proc_pid)
-    for proc in process.children(recursive=True):
-        proc.kill()
-    process.kill()
-
+devnull = subprocess.DEVNULL    
 
 class Client:
 
@@ -87,6 +79,7 @@ class Client:
         self.ff = ffmpeg.output(output_stream,
                                 'pipe:',
                                 vcodec=c.CLIENT_VCODEC,
+                                pix_fmt=c.PIX_FMT,
                                 aspect=c.CLIENT_ASPECT,
                                 flags=c.CLIENT_FLAGS,
                                 g=c.CLIENT_G,
@@ -95,15 +88,14 @@ class Client:
                                 ab=c.CLIENT_AUDIO_BITRATE,
                                 ar=c.CLIENT_AUDIO_RATE,
                                 ac='2',  # Strictly enforce stereo, 5 channel Surround audio doesnt work correctly
-                                preset=c.CLIENT_PRESET,
-                                hls_allow_cache=c.CLIENT_HLS_ALLOW_CACHE,
-                                hls_list_size=c.CLIENT_HLS_LIST_SIZE,
-                                hls_time=c.CLIENT_HLS_TIME,
+                                preset=c.PRESET,
                                 format=c.CLIENT_FORMAT,
-                                pix_fmt=c.PIX_FMT
+                                hls_allow_cache=c.CLIENT_HLS_ALLOW_CACHE,
+                                hls_time=c.CLIENT_HLS_TIME,
+                                hls_list_size=c.CLIENT_HLS_LIST_SIZE
                                 )
 
-        self.cmd = ['ffmpeg']+ffmpeg.get_args(self.ff)
+        self.cmd = ['ffmpeg', '-re']+ffmpeg.get_args(self.ff)
 
         self.process = subprocess.Popen(
             self.cmd, stdout=self.server.stdin, stderr=(None if CLIENT_DEBUG else devnull))
@@ -114,7 +106,10 @@ class Client:
         except subprocess.TimeoutExpired:
             Logger.LOGGER.log(
                 Logger.TYPE_ERROR, 'Taking longer to play than expected, killing current item')
-            kill(self.process.pid)
+            proc = psutil.Process(self.process.pid)
+            for p in proc.children(recursive=True):
+                p.kill()
+            process.kill()
             self.process.returncode = 0
 
         # returncode 0 if process exited without problems, 1 for general error

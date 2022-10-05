@@ -69,6 +69,7 @@ def init_args():
 def signal_handler(signal, frame):
     Logger.LOGGER.log(Logger.TYPE_CRIT,
                       "{} received, exiting program!".format(signal))
+    kill_process('ffmpeg')
     sys.exit(0)
 
 # Kill all processes matching a name
@@ -110,15 +111,17 @@ def main():
     init_args()  # initialize and parse the passed arguments
     signal.signal(signal.SIGINT, signal_handler)  # Handle CTRL+C
     server = Server(c.OUTPUT_LOCATION).start()  # Start the server
+    bumplist = Generator.gen_playlist(c.BUMP_FOLDER) # Playlist of bumps
     consecutive_retries = 0
 
     # Main loop
     while True:
         c.TIME_INDEX = datetime.now()
-        bumplist = Generator.gen_playlist(c.BUMP_FOLDER) # Playlist of bumps
         scheduler = Scheduler(c.PLAYOUT_FILE) # Create a schedule using full playout file
         Logger.LOGGER.log(Logger.TYPE_INFO,
             'Scheduler Created, PLAYOUT_FILE: {}'.format(c.PLAYOUT_FILE))
+        Logger.LOGGER.log(Logger.TYPE_INFO,
+            'Schedule will end at: {}'.format(c.TIME_INDEX.strftime("%H:%M")))
         for block in scheduler.blocklist: 			# Play each block in the schedule
             for x in range(len(block.playlist)):    # Play each file in the block
                 ret = play_item(block.playlist[x], server)
@@ -135,11 +138,10 @@ def main():
                         sys.exit(0)
         if not c.LOOP:
             Logger.LOGGER.log(Logger.TYPE_INFO,'Schedule Finished, shutting down.')
-            sys.exit(0)
+            break
         else: Logger.LOGGER.log(Logger.TYPE_INFO,'Schedule Finished, looping.')
+    server.terminate()
+    sys.exit(0)
     
-
-
-
 if __name__ == "__main__":
     main()

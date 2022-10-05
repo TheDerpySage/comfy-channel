@@ -40,5 +40,5 @@ class Scheduler:
         self.blocklist = []
 
         for i in self.config.sections():
-            block = Block(self.config[i]['name'], self.config[i]['folder'], self.config[i]['files'], self.config[i]['mode'], self.config[i]['bump_chance'], self.config[i]['upnext_enabled'], self.config[i]['subtitles'],)
+            block = Block(self.config[i]['name'], self.config[i]['folder'], self.config[i]['files'], self.config[i]['mode'], self.config[i]['bump_chance'], self.config[i]['upnext_enabled'], self.config[i]['subtitles'])
             self.blocklist.append(block)

@@ -44,13 +44,16 @@ class Server:
         a1 = in1['a']
         joined = ffmpeg.concat(v1, a1, v=1, a=1)
 
-        self.ff = ffmpeg.output(joined, self.output, vcodec='h264',
+        self.ff = ffmpeg.output(joined, 
+                                self.output,
+                                vcodec=c.SERV_OUTPUT_VCODEC,
+				                pix_fmt=c.PIX_FMT,
                                 aspect=c.SERV_OUTPUT_ASPECT,
+				                crf=c.SERV_OUTPUT_CRF,
+                                tune='zerolatency',
                                 acodec=c.SERV_OUTPUT_ACODEC,
-                                crf=c.SERV_OUTPUT_CRF,
-                                preset=c.SERV_OUTPUT_PRESET,
-                                format='flv',
-                                pix_fmt=c.PIX_FMT
+                                preset=c.PRESET,
+                                format=c.SERV_OUTPUT_FORMAT
                                 )
 
         self.cmd = ['ffmpeg', '-re']+ffmpeg.get_args(self.ff)
@@ -59,7 +62,3 @@ class Server:
         Logger.LOGGER.log(Logger.TYPE_INFO,
                     'Server Process Created')
         return self.process
-
-    def stop(self):
-        print("Stopping Server")
-        self.process.terminate()
