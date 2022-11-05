@@ -21,6 +21,8 @@ class MediaItem:
         # if no files found, send an error message to stdout but continue
         self.force_english = False
         self.subtitle_file = False
+        self.subtitle_track = False
+
         langs = []
         for track in self.media_info.tracks:
             if track.track_type == "Audio":
@@ -29,10 +31,11 @@ class MediaItem:
                 except: pass
         if 'en' in langs and 'ja' in langs:
             self.force_english = True
-        if subtitles == 1:
+        if subtitles >= 1:
             for track in self.media_info.tracks:
                 if track.track_type == "Text" and video_path[-3:] == "mkv":
                     self.subtitle_file = self.video_path
+                    self.subtitle_track = subtitles - 1
                     break
             if (not self.subtitle_file): 
                 exts = ['ass', 'srt', 'eng.ass', 'eng.srt', 'sub']

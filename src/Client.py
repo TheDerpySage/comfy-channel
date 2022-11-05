@@ -58,7 +58,9 @@ class Client:
             if (c.CLIENT_ENABLE_DEINTERLACE):
                 v1 = ffmpeg.filter(v1, 'yadif')
             if self.media_item.subtitle_file:
-                v1 = ffmpeg.filter(v1, 'subtitles', self.media_item.subtitle_file)
+                if self.media_item.subtitle_track:
+                    v1 = ffmpeg.filter(v1, 'subtitles', self.media_item.subtitle_file, si=self.media_item.subtitle_track)
+                else : v1 = ffmpeg.filter(v1, 'subtitles', self.media_item.subtitle_file)
             if self.media_type == "music":
                 v1 = ffmpeg.drawtext(v1, '{}'.format(self.media_item.title),
                                  x=36,
@@ -109,7 +111,7 @@ class Client:
             proc = psutil.Process(self.process.pid)
             for p in proc.children(recursive=True):
                 p.kill()
-            process.kill()
+            self.process.kill
             self.process.returncode = 0
 
         # returncode 0 if process exited without problems, 1 for general error
