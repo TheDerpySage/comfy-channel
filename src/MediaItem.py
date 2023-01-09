@@ -7,11 +7,14 @@ from os.path import exists
 class MediaItem:
 
     # media_type available: upnext, regular
-    def __init__(self, video_path, audio_path=None, media_type="regular", overlay_text=None, subtitles=0):
+    def __init__(self, video_path, audio_path=None, media_type="regular", overlay_text=None, subtitles=0, audio_track=False):
         self.video_path = video_path
         self.audio_path = audio_path
         self.media_type = media_type
         self.overlay_text = overlay_text
+        if audio_track == False:
+            self.audio_track = 0
+        else : self.audio_track = audio_track
 
         self.media_info = pymediainfo.MediaInfo.parse(self.video_path)
 
@@ -29,7 +32,7 @@ class MediaItem:
                 try:
                     langs.append(track.to_data()['language'])
                 except: pass
-        if 'en' in langs and 'ja' in langs:
+        if 'en' in langs and 'ja' in langs and audio_track == False:
             self.force_english = True
         if subtitles >= 1:
             for track in self.media_info.tracks:

@@ -10,7 +10,7 @@ import Config as c
 import Logger
 import Generator
 from datetime import datetime
-from os import listdir
+from os import listdir,getpid
 from Client import Client
 from MediaItem import MediaItem
 from Scheduler import Scheduler
@@ -69,19 +69,17 @@ def init_args():
 def signal_handler(signal, frame):
     Logger.LOGGER.log(Logger.TYPE_CRIT,
                       "{} received, exiting program!".format(signal))
-    kill_process('ffmpeg')
+    kill_children()
     sys.exit(0)
 
-# Kill all processes matching a name
+# Kill all processes child to this one
 
 
-def kill_process(procname):
-    for proc in psutil.process_iter():
-        # check whether the process name matches
-        if proc.name() == procname:
-            Logger.LOGGER.log(
-                Logger.TYPE_CRIT, "{} pid:{} killed!".format(proc.name(), proc.pid))
-            proc.kill()
+def kill_children():
+    parent = psutil.Process(getpid())
+    for child in parent.children(recursive=True):
+        print("{} pid:{} killed!".format(child.name(), child.pid))
+        child.kill()
 
 # Play an item to the Server
 
@@ -134,7 +132,7 @@ def main():
                     consecutive_retries += 1
                     if consecutive_retries >= c.MAX_CONSECUTIVE_RETRIES:
                         Logger.LOGGER.log(Logger.TYPE_CRIT, "{} Retries consecutive reached, shutting down!".format(consecutive_retries))
-                        kill_process("ffmpeg")
+                        kill_children()
                         sys.exit(0)
         if not c.LOOP:
             Logger.LOGGER.log(Logger.TYPE_INFO,'Schedule Finished, shutting down.')

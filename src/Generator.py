@@ -38,14 +38,14 @@ def set_tracker_val(dir, val):
         json.dump(j, f, indent=4)
 
 
-def gen_playlist(dir, mode="sequential", num_files=None, subtitles=0):
+def gen_playlist(dir, mode="sequential", num_files=None, subtitles=0, audio_track=False):
     playlist = []
 
     # Single (No need to do all the extra processing)
     if mode == "single":
         Logger.LOGGER.log(Logger.TYPE_INFO,
                       'Generating playlist from single file: {}'.format(dir))
-        playlist.append(MediaItem(dir, subtitles=subtitles))
+        playlist.append(MediaItem(dir, subtitles=subtitles, audio_track=audio_track))
         return playlist
 
     Logger.LOGGER.log(Logger.TYPE_INFO,
@@ -90,12 +90,12 @@ def gen_playlist(dir, mode="sequential", num_files=None, subtitles=0):
         # When theres overflow and tracking is enabled, write the difference the tracker (so we don't overflow again)
         if mode == "tracker": set_tracker_val(dir, difference)
         for i in directory_listing[x:x+(num_files-difference)]:
-            playlist.append(MediaItem(i, subtitles=subtitles))
+            playlist.append(MediaItem(i, subtitles=subtitles, audio_track=audio_track))
         for i in directory_listing[0:difference]:
-            playlist.append(MediaItem(i, subtitles=subtitles))
+            playlist.append(MediaItem(i, subtitles=subtitles, audio_track=audio_track))
     else:
         for i in directory_listing[x:x+num_files]:
-            playlist.append(MediaItem(i, subtitles=subtitles))
+            playlist.append(MediaItem(i, subtitles=subtitles, audio_track=audio_track))
 
     return playlist
 

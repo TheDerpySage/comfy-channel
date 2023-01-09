@@ -75,7 +75,7 @@ class Client:
                                  alpha='if(lt(t,10),0,if(lt(t,11),(t-10)/1,if(lt(t,21),1,if(lt(t,22),(1-(t-21))/1,0))))')
             if self.media_item.force_english:
                 a1 = in1['a:m:language:eng']
-            else : a1 = in1['a']
+            else: a1 = in1['a:%s' % self.media_item.audio_track]
             output_stream = ffmpeg.concat(v1, a1, v=1, a=1)
 
         self.ff = ffmpeg.output(output_stream,

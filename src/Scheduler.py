@@ -6,7 +6,7 @@ import Logger
 
 class Block:
 
-    def __init__(self, name, folder, num_files, mode, bump_chance, upnext_enabled, subtitles):
+    def __init__(self, name, folder, num_files, mode, bump_chance, upnext_enabled, subtitles, audio_track):
         self.name = name
         self.folder = folder
         self.num_files = int(num_files)
@@ -14,9 +14,10 @@ class Block:
         self.bump_chance = float(bump_chance)
         self.upnext_enabled = int(upnext_enabled)
         self.subtitles = int(subtitles)
+        self.audio_track = int(audio_track)
         if mode == "music":
             self.playlist = Generator.gen_music_playlist(self.folder, self.num_files)
-        else : self.playlist = Generator.gen_playlist(self.folder, self.mode, self.num_files, subtitles=self.subtitles)
+        else : self.playlist = Generator.gen_playlist(self.folder, self.mode, self.num_files, subtitles=self.subtitles, audio_track=self.audio_track)
         if(self.upnext_enabled == 1):
             upnext = Generator.gen_upnext(c.SCHEDULER_UPNEXT_VIDEO_FOLDER,
                                         c.SCHEDULER_UPNEXT_AUDIO_FOLDER,
@@ -40,5 +41,9 @@ class Scheduler:
         self.blocklist = []
 
         for i in self.config.sections():
-            block = Block(self.config[i]['name'], self.config[i]['folder'], self.config[i]['files'], self.config[i]['mode'], self.config[i]['bump_chance'], self.config[i]['upnext_enabled'], self.config[i]['subtitles'])
+            try:
+                audio_track = self.config[i]['override_audio']
+            except:
+                audio_track = False
+            block = Block(self.config[i]['name'], self.config[i]['folder'], self.config[i]['files'], self.config[i]['mode'], self.config[i]['bump_chance'], self.config[i]['upnext_enabled'], self.config[i]['subtitles'], audio_track)
             self.blocklist.append(block)
