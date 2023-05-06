@@ -60,7 +60,7 @@ def gen_playlist(dir, mode="sequential", num_files=None, subtitles=0, audio_trac
         files.sort()
         # Walks dirs and files, filtering dot files and folders, extensions commonly used for subtitles, and the Specials folder
         files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in ['srt', 'ass', 'idx', 'sub'])]
-        dirs[:] = [d for d in dirs if (not d[0] == '.') and (not d[0] == 'Specials')]
+        dirs = [d for d in dirs if (not d[0] == '.') and (not d[0] == 'Specials')]
         for name in files:
             directory_listing += [os.path.join(path, name)]
 
