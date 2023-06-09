@@ -11,17 +11,19 @@ This repository comes with some example content and configurations that can be u
 - Options to change some config options with command line args
 - Forces English Audio when Dual Audio is detected (EN/JA only)
 - Enforces 2 channel audio
-- `shuffle` is replaced with `mode` in the playout config. `mode` can be set to `shuffle`, `tracker`, `single`, or `sequential`
-- `tracker` mode will play files sequentially, and keep track of progress using `comfy-tracker.json` so that progress persists between runs/loops
-- `single` is self explanatory, where you just feed a single video file directly to the `folder` param and the `files` can be set to `1`.
-- `sequential` mode will play files sequentially, in sorted order, but won't keep track of progress between runs.
+- Introduces`mode` in the playout config. `mode` can be set to `shuffle`, `tracker`, `sequential`, `single`, or `music`.
+- `shuffle` mode retains the original default behavior. Randomly selects videos from the directory.
+- `tracker` mode will play files sequentially, in sorted order, and keep track of progress using `comfy-tracker.json` so that progress persists between runs/loops. The number displayed in `comfy-tracker.json` is the last file number played.
+- `sequential` mode is functionally the same as `tracker` but won't keep track of progress between runs.
+- `single` mode is self explanatory, where you just feed a single video file directly to the `folder` param and the `files` can be set to `1`.
+- `music` mode is functionally the same as `shuffle` but will also briefly display the video title at the bottom left corner when the video starts.
+
+- Adds `bump_chance`, a float from 1.0 to 0.0 that reflects percent chance it'll play a random bump from the bumpers directory.
+- Adds `upnext_enabled`, if you'd like it to play the upnext information clip or not before playing the videos. 1 for enabled, 0 for disabled.
+- Adds `subtitles` to enable subtitles. If the file is an mkv itll try to play subtitles out of the mkv, if not itll try to load a subtitle file .srt or .ass from the same dir as the file. 1 for enabled, 0 for disabled.
 - Uses `SystemRandom`
 - Makes the overlay image outline file optional, since it seems largely unneccessary
-- Allows you to enable subtitles. If the file is an mkv itll try to play subtitles out of the mkv, if not itll try to load a subtitle file .srt or .ass from the same dir as the file  
 
-### TODO
-
-- Add a smart shuffle to make sure shuffle isn't choosing the same files over and over between runs.
 
 ## How to run
 
