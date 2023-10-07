@@ -54,15 +54,13 @@ def gen_playlist(dir, mode="sequential", num_files=None, subtitles=0, audio_trac
     directory_listing = []
     x = 0
 
-    # https://stackoverflow.com/questions/2909975/python-list-directory-subdirectory-and-files
     for path, dirs, files in os.walk(dir):
-        dirs.sort()
         files.sort()
         # Walks dirs and files, filtering dot files and folders, extensions commonly used for subtitles, and the Specials folder
-        files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in ['srt', 'ass', 'idx', 'sub'])]
-        dirs = [d for d in dirs if (not d[0] == '.') and (not d[0] == 'Specials')]
+        files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in c.EXCLUDED_FILETYPES)]
         for name in files:
-            directory_listing += [os.path.join(path, name)]
+            if os.path.basename(path) not in c.EXCLUDED_DIRNAMES:
+                directory_listing += [os.path.join(path, name)]
 
     # If no num_files is passed, just use whole dir
     # (Used mainly by generating the bump playlist)
@@ -140,13 +138,12 @@ def gen_music_playlist(dir, num_files=5):
                       'Generating music playlist from directory: {}'.format(dir))
 
     for path, dirs, files in os.walk(dir):
-        dirs.sort()
         files.sort()
         # Walks dirs and files, filtering dot files and folders, extensions commonly used for subtitles, and the Specials folder
-        files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in ['srt', 'ass', 'idx', 'sub'])]
-        dirs[:] = [d for d in dirs if (not d[0] == '.') and (not d[0] == 'Specials')]
+        files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in c.EXCLUDED_FILETYPES)]
         for name in files:
-            directory_listing += [os.path.join(path, name)]
+            if os.path.basename(path) not in c.EXCLUDED_DIRNAMES:
+                directory_listing += [os.path.join(path, name)]
 
     random.SystemRandom().shuffle(directory_listing, random.SystemRandom().random)
 

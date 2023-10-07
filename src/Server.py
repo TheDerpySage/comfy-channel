@@ -57,6 +57,7 @@ class Server:
                                 )
 
         self.cmd = ['ffmpeg', '-re']+ffmpeg.get_args(self.ff)
+
         self.process = subprocess.Popen(self.cmd, stdin=subprocess.PIPE, stdout=devnull, stderr=(
             None if SERVER_DEBUG else devnull))
         Logger.LOGGER.log(Logger.TYPE_INFO,

@@ -26,6 +26,10 @@ OVERLAY_FILE_OUTLINE = False
 OVERLAY_X = W - 120
 OVERLAY_Y = 0
 
+# When Walking the Directories, exclude some filetypes and directory names
+EXCLUDED_FILETYPES = ['srt', 'ass', 'idx', 'sub', 'py']
+EXCLUDED_DIRNAMES = ['Specials']
+
 # Settings that are the same between Serv and Client
 PIX_FMT = 'yuv420p'
 PRESET = 'ultrafast'
