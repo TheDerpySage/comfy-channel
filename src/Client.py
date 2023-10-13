@@ -108,10 +108,7 @@ class Client:
         except subprocess.TimeoutExpired:
             Logger.LOGGER.log(
                 Logger.TYPE_ERROR, 'Taking longer to play than expected, killing current item')
-            proc = psutil.Process(self.process.pid)
-            for p in proc.children(recursive=True):
-                p.kill()
-            self.process.kill
+            self.process.kill()
             self.process.returncode = 0
 
         # returncode 0 if process exited without problems, 1 for general error
