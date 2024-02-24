@@ -8,7 +8,7 @@ import Config as c
 import Logger
 
 CLIENT_DEBUG = False
-devnull = subprocess.DEVNULL    
+devnull = subprocess.DEVNULL
 
 class Client:
 
@@ -58,9 +58,18 @@ class Client:
             if (c.CLIENT_ENABLE_DEINTERLACE):
                 v1 = ffmpeg.filter(v1, 'yadif')
             if self.media_item.subtitle_file:
-                if self.media_item.subtitle_track:
-                    v1 = ffmpeg.filter(v1, 'subtitles', self.media_item.subtitle_file, si=self.media_item.subtitle_track)
-                else : v1 = ffmpeg.filter(v1, 'subtitles', self.media_item.subtitle_file)
+                if self.media_item.subtitle_format in ['ass', 'srt', 'sub']:
+                    if self.media_item.subtitle_track:
+                        v1 = ffmpeg.filter(v1, 'subtitles', self.media_item.subtitle_file, si=self.media_item.subtitle_track)
+                    else:
+                        v1 = ffmpeg.filter(v1, 'subtitles', self.media_item.subtitle_file)
+                elif self.media_item.subtitle_format in ['pgs']:
+                    inS = ffmpeg.input(self.media_item.subtitle_file)
+                    if self.media_item.subtitle_track:
+                        vS = ffmpeg.filter(inS['s:%s' % self.media_item.subtitle_track], 'scale', w=c.W, h=c.H)
+                    else:
+                        vS = ffmpeg.filter(inS['s:0'], 'scale', w=c.W, h=c.H)
+                    v1 = ffmpeg.overlay(v1, vS)
             if self.media_type == "music":
                 v1 = ffmpeg.drawtext(v1, '{}'.format(self.media_item.title),
                                  x=36,
