@@ -110,11 +110,7 @@ venv.bak/
 
 # other
 bin/
-signon/
-signoff/
-sunday/
 playouts-*/
-laborday/
 videos-*/
 video-*/
 audio-*/
