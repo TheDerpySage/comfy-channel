@@ -84,9 +84,9 @@ def kill_children():
 # Play an item to the Server
 
 
-def play_item(item, server):
+def play_item(item, index, server):
     retries = 0
-    client = Client(item, server)
+    client = Client(item, index, server)
     while True:
         ret = client.play()
         if ret != 0:
@@ -109,7 +109,7 @@ def main():
     init_args()  # initialize and parse the passed arguments
     signal.signal(signal.SIGINT, signal_handler)  # Handle CTRL+C
     server = Server(c.OUTPUT_LOCATION).start()  # Start the server
-    bumplist = Generator.gen_playlist(c.BUMP_FOLDER) # Playlist of bumps
+    bumplist = Generator.gen_playlist(c.BUMPER_FOLDER) # Playlist of bumps
     consecutive_retries = 0
 
     # Main loop
@@ -120,20 +120,22 @@ def main():
             'Scheduler Created, PLAYOUT_FILE: {}'.format(c.PLAYOUT_FILE))
         Logger.LOGGER.log(Logger.TYPE_INFO,
             'Schedule will end at: {}'.format(c.TIME_INDEX.strftime("%H:%M")))
+        i = 0
         for block in scheduler.blocklist: 			# Play each block in the schedule
             for x in range(len(block.playlist)):    # Play each file in the block
-                ret = play_item(block.playlist[x], server)
+                ret = play_item(block.playlist[x], i, server)
                 if ret == 0: # If item played successfully, roll bump chance
                     # Only attempt bump chance on regular items, and not the last item
                     if len(bumplist) > 0 and block.playlist[x].media_type == "regular" and x < len(block.playlist) - 1 and random.SystemRandom().random() > 1-block.bump_chance:
                         Logger.LOGGER.log(Logger.TYPE_INFO,"Bump chance succeeded, playing bump.")
-                        play_item(random.SystemRandom().choice(bumplist), server)
+                        play_item(random.SystemRandom().choice(bumplist), i, server)
                 else: # else, increment consecutive retries
                     consecutive_retries += 1
                     if consecutive_retries >= c.MAX_CONSECUTIVE_RETRIES:
                         Logger.LOGGER.log(Logger.TYPE_CRIT, "{} Retries consecutive reached, shutting down!".format(consecutive_retries))
                         kill_children()
                         sys.exit(0)
+                i += 1
         if not c.LOOP:
             Logger.LOGGER.log(Logger.TYPE_INFO,'Schedule Finished, shutting down.')
             break

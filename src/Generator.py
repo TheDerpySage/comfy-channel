@@ -139,6 +139,7 @@ def gen_music_playlist(dir, num_files=5):
                       'Generating music playlist from directory: {}'.format(dir))
 
     for path, dirs, files in os.walk(dir):
+        dirs.sort()
         files.sort()
         # Walks dirs and files, filtering dot files and folders, extensions commonly used for subtitles, and the Specials folder
         files = [f for f in files if (not f[0] == '.') and (not f.split('.')[-1] in c.EXCLUDED_FILETYPES)]

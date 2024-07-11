@@ -19,10 +19,10 @@ SCHEDULER_UPNEXT_VIDEO_FOLDER = 'upnext/video'
 SCHEDULER_UPNEXT_AUDIO_FOLDER = 'upnext/audio'
 SCHEDULER_UPNEXT_WISDOM_FILE = 'upnext/wisdom.txt'
 
-BUMP_FOLDER = 'bumpers'
+BUMPER_FOLDER = 'bumpers'
 
-OVERLAY_FILE = 'upnext/moe_scaled.png'
-OVERLAY_FILE_OUTLINE = False
+OVERLAY_FILE = 'upnext/comfychan.png'
+OVERLAY_FILE_OUTLINE = 'upnext/comfychanline.png'
 OVERLAY_X = W - 120
 OVERLAY_Y = 0
 

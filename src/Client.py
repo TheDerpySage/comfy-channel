@@ -12,11 +12,12 @@ devnull = subprocess.DEVNULL
 
 class Client:
 
-    def __init__(self, media_item, server):
+    def __init__(self, media_item, index, server):
         self.ff = ''
         self.cmd = ''
         self.media_item = media_item
         self.media_type = media_item.media_type
+        self.index = index
         self.process = None
         self.server = server
 
@@ -52,7 +53,7 @@ class Client:
             Logger.LOGGER.log(Logger.TYPE_INFO, 'Playing v:{} (Duration: {})'.format(
                 self.media_item, self.media_item.duration_readable))
 
-            in1 = ffmpeg.input(self.media_item.video_path)
+            in1 = ffmpeg.input(self.media_item.video_path.replace("'", "\'"))
             v1 = ffmpeg.filter(in1['v'], 'scale', w=c.W, h=c.H, force_original_aspect_ratio="decrease")
             v1 = ffmpeg.filter(v1, 'pad', w=c.W, h=c.H, x='(ow-iw)/2', y='(oh-ih)/2')
             if (c.CLIENT_ENABLE_DEINTERLACE):
@@ -111,7 +112,7 @@ class Client:
         self.process = subprocess.Popen(
             self.cmd, stdout=self.server.stdin, stderr=(None if CLIENT_DEBUG else devnull))
         try:
-            flex = c.CLIENT_FLEX  # Number of seconds of extra time before timeout
+            flex = c.CLIENT_FLEX if self.index != 0 else c.CLIENT_FLEX + 15 # Number of seconds of extra time before timeout
             timeout = (self.media_item.duration/1000)  # Content length in seconds
             self.process.wait(timeout=timeout+flex)
         except subprocess.TimeoutExpired:
