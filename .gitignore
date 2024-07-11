@@ -110,8 +110,15 @@ venv.bak/
 
 # other
 bin/
-bumpers/
 signon/
 signoff/
 sunday/
-playout_*.ini
+playouts-*/
+laborday/
+videos-*/
+video-*/
+audio-*/
+bumpers-*/
+logos-*/
+test/
+*.bak
